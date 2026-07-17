@@ -1,0 +1,35 @@
+= jxl-d
+
+Unified JPEG XL API for D:
+
+* *Decode* via https://github.com/dlang-supplemental/jxl-rs-d[`jxl-rs-d`]
+  (official Rust `jxl-rs` decoder — same family as Chrome/Firefox)
+* *Encode* via https://github.com/bildhuus/libjxl-d[`libjxl-d`] (libjxl C API)
+
+== Site
+
+https://dlang-supplemental.github.io/jxl-d/
+
+== Quick start
+
+[source,d]
+----
+import jxl_d;
+
+void main()
+{
+    // Decode (jxl-rs)
+    auto img = decodeRgba8(cast(immutable(ubyte)[]) std.file.read("in.jxl"));
+
+    // Encode (libjxl) — optional path; available even if unused for now
+    auto bytes = encodeRgba8(img.width, img.height, img.pixels);
+}
+----
+
+== Changelog
+
+See link:CHANGELOG.adoc[CHANGELOG].
+
+== License
+
+BSD-3-Clause.

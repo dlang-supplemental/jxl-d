@@ -1,0 +1,14 @@
+name "jxl-d"
+description "JPEG XL for D: jxl-rs decode + libjxl encode"
+authors "amdphreak"
+copyright "Copyright © 2026, amdphreak"
+license "BSD-3-Clause"
+
+targetType "library"
+targetName "jxl_d"
+
+dependency "jxl-rs-d" path="../jxl-rs-d"
+dependency "libjxl-d" repository="git+https://github.com/bildhuus/libjxl-d.git" version="~main"
+
+importPaths "source"
+sourcePaths "source"

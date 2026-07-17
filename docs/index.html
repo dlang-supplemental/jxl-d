@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>jxl-d</title>
+  <meta name="description" content="JPEG XL for D — decode with jxl-rs, encode with libjxl." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #101820;
+      --panel: #f2f5f8;
+      --grid: rgba(16, 24, 32, 0.06);
+      --volt: #b6f800;
+      --steel: #3d5a73;
+      --muted: #5a6b78;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background-color: var(--panel);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+        radial-gradient(900px 500px at 0% 0%, rgba(182, 248, 0, 0.18), transparent 60%),
+        radial-gradient(700px 480px at 100% 20%, rgba(61, 90, 115, 0.16), transparent 55%);
+      background-size: 48px 48px, 48px 48px, auto, auto;
+      min-height: 100vh;
+    }
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      align-content: center;
+      padding: clamp(1.5rem, 4vw, 3.5rem);
+      max-width: 56rem;
+      margin: 0 auto;
+    }
+    .brand {
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 9vw, 5.4rem);
+      letter-spacing: -0.05em;
+      line-height: 0.92;
+      margin: 0 0 1.2rem;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: rise 0.75s cubic-bezier(0.2, 0.85, 0.2, 1) 0.05s forwards;
+    }
+    .brand span {
+      background: var(--volt);
+      padding: 0 0.12em;
+      box-decoration-break: clone;
+    }
+    h1 {
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 500;
+      font-size: clamp(1.35rem, 3.2vw, 2rem);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin: 0 0 0.9rem;
+      max-width: 18ch;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: rise 0.75s cubic-bezier(0.2, 0.85, 0.2, 1) 0.2s forwards;
+    }
+    .lede {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 36rem;
+      margin: 0 0 1.75rem;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: rise 0.75s cubic-bezier(0.2, 0.85, 0.2, 1) 0.34s forwards;
+    }
+    .ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: rise 0.75s cubic-bezier(0.2, 0.85, 0.2, 1) 0.46s forwards;
+    }
+    a.btn {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.7rem 1.15rem;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+    a.btn:hover { transform: translateY(-2px); }
+    a.primary {
+      background: var(--ink);
+      color: var(--volt);
+    }
+    a.primary:hover { background: var(--steel); color: #fff; }
+    a.ghost {
+      color: var(--ink);
+      border: 1.5px solid color-mix(in srgb, var(--ink) 30%, transparent);
+    }
+    a.ghost:hover {
+      border-color: var(--ink);
+      background: color-mix(in srgb, var(--volt) 35%, transparent);
+    }
+    .slash {
+      position: fixed;
+      inset: 18% -5% auto auto;
+      width: min(42vw, 360px);
+      height: 3px;
+      background: var(--ink);
+      transform: rotate(-28deg);
+      transform-origin: right center;
+      opacity: 0;
+      animation: slash 0.9s cubic-bezier(0.2, 0.85, 0.2, 1) 0.55s forwards;
+      pointer-events: none;
+    }
+    @keyframes rise {
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes slash {
+      from { opacity: 0; width: 0; }
+      to { opacity: 0.35; width: min(42vw, 360px); }
+    }
+    @media (max-width: 640px) {
+      .slash { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="slash" aria-hidden="true"></div>
+  <main class="wrap">
+    <p class="brand">jxl<span>-d</span></p>
+    <h1>Decode with jxl-rs. Encode with libjxl.</h1>
+    <p class="lede">
+      One D facade for JPEG XL workflows: browser-class Rust decode up front,
+      libjxl encode when you need to write bitstreams.
+    </p>
+    <div class="ctas">
+      <a class="btn primary" href="https://github.com/dlang-supplemental/jxl-d">GitHub</a>
+      <a class="btn ghost" href="https://github.com/dlang-supplemental/jxl-rs-d">Decode package: jxl-rs-d</a>
+    </div>
+  </main>
+</body>
+</html>

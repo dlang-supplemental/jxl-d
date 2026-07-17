@@ -1,0 +1,9 @@
+= Initial facade
+
+Date:: 2026-07-17
+
+== Summary
+
+`jxl-d` composes `jxl-rs-d` for decode and `bildhuus/libjxl-d` for encode under
+one D package. Encode is exposed for future workflows even if decode is the
+primary use today.

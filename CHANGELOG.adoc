@@ -1,0 +1,5 @@
+= Changelog
+
+== 2026-07-17 — Initial facade (jxl-rs decode + libjxl encode)
+
+* link:changelog-details/2026-07-17%20-%20initial%20facade.adoc[Details]
