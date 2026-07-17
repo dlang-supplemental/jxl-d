@@ -1,0 +1,148 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.artifact }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Platforms with prebuilt libs in bildhuus/libjxl-d
+          - os: ubuntu-latest
+            artifact: linux-x86_64
+            has_libjxl: true
+          - os: windows-latest
+            artifact: windows-x86_64
+            has_libjxl: true
+          - os: macos-15
+            artifact: macos-aarch64
+            has_libjxl: true
+          - os: macos-13
+            artifact: macos-x86_64
+            has_libjxl: true
+          # Decode-only CI (jxl-rs-d); libjxl-d has no prebuilts here yet
+          - os: ubuntu-24.04-arm
+            artifact: linux-aarch64
+            has_libjxl: false
+          - os: windows-11-arm
+            artifact: windows-aarch64
+            has_libjxl: false
+
+    steps:
+      - name: Checkout jxl-d
+        uses: actions/checkout@v4
+        with:
+          path: jxl-d
+
+      - name: Checkout jxl-rs-d (path sibling)
+        uses: actions/checkout@v4
+        with:
+          repository: dlang-supplemental/jxl-rs-d
+          path: jxl-rs-d
+          ref: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'main' }}
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Set up D (LDC)
+        uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: ldc-latest
+
+      - name: Build + test (full encode+decode)
+        if: matrix.has_libjxl
+        working-directory: jxl-d
+        shell: bash
+        run: |
+          set -euo pipefail
+          dub build --compiler=ldc2
+          dub test --compiler=ldc2
+
+      - name: Build + test decode dependency only
+        if: ${{ !matrix.has_libjxl }}
+        working-directory: jxl-rs-d
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "libjxl-d has no prebuilt static libs for ${{ matrix.artifact }}; verifying jxl-rs-d decode path."
+          dub build --compiler=ldc2
+          dub test --compiler=ldc2
+
+      - name: Package summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          {
+            echo "jxl-d CI artifact: ${{ matrix.artifact }}"
+            echo "runner: ${{ matrix.os }}"
+            echo "libjxl encode linked: ${{ matrix.has_libjxl }}"
+            echo "tag_or_sha: ${{ github.ref_name }} / ${{ github.sha }}"
+          } > dist/build-info.txt
+          if [[ "${{ matrix.has_libjxl }}" == "true" ]]; then
+            echo "mode=full" >> dist/build-info.txt
+          else
+            echo "mode=decode-only-ci" >> dist/build-info.txt
+          fi
+          cp jxl-d/LICENSE dist/ 2>/dev/null || cp jxl-rs-d/LICENSE dist/
+          cp jxl-d/README.adoc dist/ 2>/dev/null || true
+          (
+            cd dist
+            if command -v zip >/dev/null 2>&1; then
+              zip -r "../jxl-d-${{ matrix.artifact }}.zip" .
+            else
+              powershell -NoProfile -Command "Compress-Archive -Path * -DestinationPath '../jxl-d-${{ matrix.artifact }}.zip'"
+            fi
+          )
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jxl-d-${{ matrix.artifact }}
+          path: jxl-d-${{ matrix.artifact }}.zip
+          if-no-files-found: error
+
+  release:
+    name: GitHub Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+
+      - name: Flatten zips
+        run: |
+          set -euo pipefail
+          mkdir -p upload
+          find release-assets -name '*.zip' -exec cp {} upload/ \;
+          ls -la upload
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: upload/*
+          generate_release_notes: true
+          body: |
+            ## jxl-d ${{ github.ref_name }}
+
+            Unified JPEG XL API for D:
+            - **Decode** via [jxl-rs-d](https://github.com/dlang-supplemental/jxl-rs-d)
+            - **Encode** via [libjxl-d](https://github.com/bildhuus/libjxl-d) (where prebuilts exist)
+
+            ### Platform notes
+            Full encode+decode CI: `linux-x86_64`, `windows-x86_64`, `macos-x86_64`, `macos-aarch64`.
+            ARM Linux/Windows currently verify the decode path only until libjxl-d ships those static libs.
