@@ -1,16 +1,41 @@
+ifndef::env-github[:icons: font]
+:toc: preamble
+:toclevels: 2
+:sectanchors:
+
+ifndef::env-github[]
+image:https://img.shields.io/github/contributors/dlang-supplemental/jxl-d.svg?style=for-the-badge[Contributors,link=https://github.com/dlang-supplemental/jxl-d/graphs/contributors]
+image:https://img.shields.io/github/forks/dlang-supplemental/jxl-d.svg?style=for-the-badge[Forks,link=https://github.com/dlang-supplemental/jxl-d/network/members]
+image:https://img.shields.io/github/stars/dlang-supplemental/jxl-d.svg?style=for-the-badge[Stars,link=https://github.com/dlang-supplemental/jxl-d/stargazers]
+image:https://img.shields.io/github/issues/dlang-supplemental/jxl-d.svg?style=for-the-badge[Issues,link=https://github.com/dlang-supplemental/jxl-d/issues]
+image:https://img.shields.io/github/license/dlang-supplemental/jxl-d.svg?style=for-the-badge[License,link=https://github.com/dlang-supplemental/jxl-d/blob/main/LICENSE]
+endif::[]
+
+ifdef::env-github[]
+image:https://img.shields.io/github/contributors/dlang-supplemental/jxl-d.svg?style=for-the-badge[Contributors]
+image:https://img.shields.io/github/forks/dlang-supplemental/jxl-d.svg?style=for-the-badge[Forks]
+image:https://img.shields.io/github/stars/dlang-supplemental/jxl-d.svg?style=for-the-badge[Stars]
+image:https://img.shields.io/github/issues/dlang-supplemental/jxl-d.svg?style=for-the-badge[Issues]
+image:https://img.shields.io/github/license/dlang-supplemental/jxl-d.svg?style=for-the-badge[License]
+endif::[]
+
 = jxl-d
+
+JPEG XL for D: jxl-rs decode + libjxl encode.
+
+link:https://dlang-supplemental.github.io/jxl-d/[Explore the docs] ·
+link:https://github.com/dlang-supplemental/jxl-d/issues[Report Bug]
+
+Install: `dub add jxl-d`
+
+== About The Project
 
 Unified JPEG XL API for D:
 
-* *Decode* via https://github.com/dlang-supplemental/jxl-rs-d[`jxl-rs-d`]
-  (official Rust `jxl-rs` decoder — same family as Chrome/Firefox)
+* *Decode* via https://github.com/dlang-supplemental/jxl-rs-d[`jxl-rs-d`] (official Rust `jxl-rs` decoder — same family as Chrome/Firefox)
 * *Encode* via https://github.com/bildhuus/libjxl-d[`libjxl-d`] (libjxl C API)
 
-== Site
-
-https://dlang-supplemental.github.io/jxl-d/
-
-== Quick start
+== Usage
 
 [source,d]
 ----
@@ -32,4 +57,11 @@ See link:CHANGELOG.adoc[CHANGELOG].
 
 == License
 
-BSD-3-Clause.
+BSD-3-Clause — see link:LICENSE[LICENSE].
+
+== Contact
+
+DLang Supplemental — dlang@devcentr.org
+
+* Project: https://github.com/dlang-supplemental/jxl-d
+* Site: https://dlang-supplemental.github.io
