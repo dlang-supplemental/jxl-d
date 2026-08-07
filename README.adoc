@@ -3,7 +3,29 @@ ifndef::env-github[:icons: font]
 :toclevels: 2
 :sectanchors:
 
-[[readme-top]]
+ifdef::env-github[]
+++++
+<a id="readme-top"></a>
+<div align="center">
+<a href="https://github.com/dlang-supplemental/jxl-d/graphs/contributors"><img src="https://img.shields.io/github/contributors/dlang-supplemental/jxl-d.svg?style=for-the-badge" alt="Contributors"></a>
+<a href="https://github.com/dlang-supplemental/jxl-d/network/members"><img src="https://img.shields.io/github/forks/dlang-supplemental/jxl-d.svg?style=for-the-badge" alt="Forks"></a>
+<a href="https://github.com/dlang-supplemental/jxl-d/stargazers"><img src="https://img.shields.io/github/stars/dlang-supplemental/jxl-d.svg?style=for-the-badge" alt="Stars"></a>
+<a href="https://github.com/dlang-supplemental/jxl-d/issues"><img src="https://img.shields.io/github/issues/dlang-supplemental/jxl-d.svg?style=for-the-badge" alt="Issues"></a>
+<a href="https://github.com/dlang-supplemental/jxl-d/blob/main/LICENSE"><img src="https://img.shields.io/github/license/dlang-supplemental/jxl-d.svg?style=for-the-badge" alt="License"></a>
+<br />
+<h3 align="center">jxl-d</h3>
+<p align="center">
+JPEG XL for D: jxl-rs decode + libjxl encode.<br />
+<a href="https://dlang-supplemental.github.io/jxl-d/"><strong>Explore the docs »</strong></a><br /><br />
+<a href="https://github.com/dlang-supplemental/jxl-d/issues">Report Bug</a>
+&middot;
+<a href="https://github.com/dlang-supplemental/jxl-d/issues">Request Feature</a>
+</p>
+</div>
+++++
+endif::[]
+
+ifndef::env-github[]
 image:https://img.shields.io/github/contributors/dlang-supplemental/jxl-d.svg?style=for-the-badge[Contributors,link=https://github.com/dlang-supplemental/jxl-d/graphs/contributors]
 image:https://img.shields.io/github/forks/dlang-supplemental/jxl-d.svg?style=for-the-badge[Forks,link=https://github.com/dlang-supplemental/jxl-d/network/members]
 image:https://img.shields.io/github/stars/dlang-supplemental/jxl-d.svg?style=for-the-badge[Stars,link=https://github.com/dlang-supplemental/jxl-d/stargazers]
@@ -18,6 +40,7 @@ link:https://dlang-supplemental.github.io/jxl-d/[Explore the docs] ·
 link:https://github.com/dlang-supplemental/jxl-d/issues[Report Bug]
 
 Install: `dub add jxl-d`
+endif::[]
 
 == About The Project
 
