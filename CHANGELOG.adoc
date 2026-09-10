@@ -1,5 +1,9 @@
 = Changelog
 
+== 2026-09-10 — Sitemap and robots.txt
+
+* Add `docs/robots.txt` and `docs/sitemap.xml` for the Pages docs site (`https://dlang-supplemental.github.io/jxl-d/`).
+
 == 2026-07-17 — v0.1.1
 
 * Add `README.md` for DUB registry (alongside AsciiDoc README)
